@@ -16,7 +16,7 @@ Parses each file in a given directory and provide all matching signatures (magic
 
 `python main.py -p "path/to/directory" -e 128 -t 32 > example.txt`
 
-Result:
+You can find the following result [here](./example/example.txt):
 
 ```
 
@@ -56,7 +56,6 @@ Investigated File: ./example.pdf
 Execution Time: 0.005403 sec
 ################################################################################
 ```
-You can find the  result [here](./example/example.txt).
 
 # Credits
 
