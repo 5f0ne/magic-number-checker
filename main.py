@@ -14,7 +14,7 @@ args = parser.parse_args()
 
 dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
-print("################################################################################")
+print("########################################################################################################")
 print("")
 print("Magic Number Checker by 5f0")
 print("Indicates the type of the file based on their magic number")
@@ -24,7 +24,7 @@ print("Investigate files in: " + args.path)
 print("")
 print("Current Datetime: " + dt_string)
 print("")
-print("################################################################################")
+print("########################################################################################################")
 
 parser = FileParser()
 checker = SignatureChecker()
@@ -37,24 +37,34 @@ for path, dirs, files in os.walk(args.path):
 
         print("")
         print("Investigated File: " + currentFile)
+        print("")
+
+        # Get the file hashes
+        hashes = parser.calculateFileHash(currentFile)
+
+        print("   MD5 Hash: " + hashes["md5"])
+        print("SHA256 Hash: " + hashes["sha256"])
         
         # Read the first x bytes and get the hex string
-        firstHexString = parser.getFirstBytesAsHexString(currentFile, args.headerBytes)
+        firstHexString, firstHexList = parser.getFirstBytesAsHexString(currentFile, args.headerBytes)
         
         # Print the first x bytes of the file
-        parser.printHexTable(firstHexString, args.headerBytes, "First")
+        parser.printHexTableHeader("Header - First", args.headerBytes)
+        parser.printHexTable(firstHexList)
 
          # Read the last x bytes
-        lastHexString = parser.getLastBytesAsHexString(currentFile, args.trailerBytes)
+        lastHexString, lastHexList = parser.getLastBytesAsHexString(currentFile, args.trailerBytes)
 
         # Print the last x bytes of the file
-        parser.printHexTable(lastHexString, args.trailerBytes, "Last")
+        parser.printHexTableHeader("Trailer - Last", args.trailerBytes)
+        parser.printHexTable(lastHexList)
 
         # Check if a header signature is matching 
         checker.check(firstHexString, lastHexString)
 
 end = time.time()
 
+print("")
 print("Execution Time: " + str(end-start)[0:8] + " sec")
-print("################################################################################")
+
        
